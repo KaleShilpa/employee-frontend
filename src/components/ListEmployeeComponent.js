@@ -1,11 +1,15 @@
-//import useFetch from "./useFetch";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useNavigate} from "react-router-dom";
+
 const ListEmployeeComponent = () => {
 
-    //const{data:employees,isPending,error} = useFetch(`http://localhost:8082/api/v1/employees`);
     const [employees, setEmployees] = useState("");
-    
+    const navigate = useNavigate();
+    const addEmployee = ()=>{
+        navigate("/add-employee");
+
+    }
     
     useEffect(
         ()=>{
@@ -26,8 +30,11 @@ const ListEmployeeComponent = () => {
     } 
     return ( 
         <div>
-            {employees && <div>
+            
             <h2 className="text-center">Employee List</h2>
+            <div>
+                <button className="btn btn-primary" onClick={addEmployee}>Add Employee</button>
+            </div>
             <div className="row">
                 <table className="table table-stripped table-bordered">
                     <thead>
@@ -51,7 +58,7 @@ const ListEmployeeComponent = () => {
                     </tbody>
                 </table>
             </div>
-            </div>}
+            
         </div>
      );
 }
