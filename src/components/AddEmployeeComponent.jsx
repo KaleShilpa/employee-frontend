@@ -48,7 +48,7 @@ const AddEmployeeComponent = () => {
                                 </div>
                                 <div className="form-group">
                                     <button className="btn btn-success" onClick={handleSubmit}>Submit</button>
-                                    <button className="btn btn-danger">Cancel</button>
+                                    <button className="btn btn-danger" onClick={handleCancel}>Cancel</button>
                                 </div>
                             </form>
                         </div>

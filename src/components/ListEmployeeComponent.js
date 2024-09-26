@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate} from "react-router-dom";
+import { useNavigate, Link} from "react-router-dom";
 
 const ListEmployeeComponent = () => {
 
@@ -10,21 +10,32 @@ const ListEmployeeComponent = () => {
         navigate("/add-employee");
 
     }
+
+    function deleteEmployee(id){
+        fetch('/api/v1/employees/'+id,{
+            method:'DELETE'
+        }).then(()=>{
+            //to avoid refreshing the page again.
+            getData();
+        })
+    }
     
     useEffect(
         ()=>{
-
-            const fetchEmployees = async()=>{
-                const response = await fetch("/api/v1/employees");
-                const data = await response.json();
-                setEmployees(data);
-            };
-
-            fetchEmployees();
+            getData();
         },[]
 
     );
     
+    function getData(){
+        const fetchEmployees = async()=>{
+            const response = await fetch("/api/v1/employees");
+            const data = await response.json();
+            setEmployees(data);
+        };
+
+        fetchEmployees();
+    }
     if(!employees){
         return <h1>No employess found.</h1>
     } 
@@ -39,6 +50,7 @@ const ListEmployeeComponent = () => {
                 <table className="table table-stripped table-bordered">
                     <thead>
                         <tr>
+                            <th> Id</th>
                             <th> First Name</th>
                             <th> Last Name</th>
                             <th> Email Id</th>
@@ -49,10 +61,12 @@ const ListEmployeeComponent = () => {
                         {employees.map(employee=>(
                             
                                 <tr key={employee.id}>
+                                    <td>{employee.id}</td>
                                     <td>{employee.firstName}</td>
                                     <td>{employee.lastName}</td>
                                     <td>{employee.emailId}</td>
-                                    <td><a href="#">Delete</a></td>
+                                    <td><Link className="btn btn-info" to={`/update-employee/${employee.id}`}>Update</Link></td>
+                                    <td><button onClick={()=>{deleteEmployee(employee.id)}} className="btn btn-danger">Delete</button></td>
                                 </tr>
                         ))}
                     </tbody>
